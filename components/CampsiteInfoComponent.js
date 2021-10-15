@@ -1,17 +1,11 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-  Modal,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet } from "react-native";
 import { Card, Icon, Rating, Input } from "react-native-elements";
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
 import { postFavorite, postComment } from "../redux/ActionCreators";
+import * as Animatable from 'react-native-animatable';
+
 const mapStateToProps = (state) => {
   return {
     campsites: state.campsites,
@@ -21,13 +15,14 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   postFavorite: (campsiteId) => postFavorite(campsiteId),
-  postComment   //: (campsiteId, rating, author, text) =>postComment(campsiteId, rating, author, text),
+  postComment
 };
 function RenderCampsite(props) {
   const { campsite } = props;
   if (campsite) {
     return (
-      <Card
+      <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+        <Card
         featuredTitle={campsite.name}
         image={{ uri: baseUrl + campsite.image }}
       >
@@ -50,7 +45,8 @@ function RenderCampsite(props) {
             onPress={() => props.onShowModal()}
           />
         </View>
-      </Card>
+        </Card>
+      </Animatable.View>
     );
   }
   return <View />;
@@ -71,13 +67,15 @@ function RenderComments({ comments }) {
     );
   };
   return (
-    <Card title="Comments">
+    <Animatable.View animation='fadeInUp' duration={2000} delay={1000}>
+        <Card title='Comments'>
       <FlatList
         data={comments}
         renderItem={renderCommentItem}
         keyExtractor={(item) => item.id.toString()}
       />
-    </Card>
+        </Card>
+    </Animatable.View>
   );
 }
 class CampsiteInfo extends Component {
