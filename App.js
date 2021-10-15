@@ -18,3 +18,4 @@ export default function App() {
         </Provider>
     );
 }
+// strange error occurred, so now I'm making a safety commit.
